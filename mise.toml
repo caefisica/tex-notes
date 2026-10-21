@@ -1,0 +1,22 @@
+[tools]
+typst = "0.15.1"
+"github:Pagefind/pagefind" = "1.5.2"
+node = "24.22.0"
+oxfmt = "0.74.0"
+
+[tasks.lint]
+description = "Comprueba el formato de los documentos sin cambiarlos"
+run = "oxfmt --check ."
+
+[tasks.fix]
+description = "Da formato a los documentos"
+run = "oxfmt ."
+
+[tasks.check]
+description = "Comprueba el formato, compila todos los cursos a PDF y construye el sitio sin avisos"
+depends = ["lint", "build"]
+
+[tasks.serve]
+description = "Construye el sitio y lo sirve en http://localhost:1414"
+depends = ["build"]
+run = "pagefind --serve"

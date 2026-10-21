@@ -1,0 +1,57 @@
+#!/usr/bin/env bash
+#MISE description="Compila los PDF, el sitio web y el índice de búsqueda en public/"
+set -euo pipefail
+
+# La exportación HTML de Typst avisa siempre de que es experimental. Ese aviso
+# es el único que se descarta, junto con el progreso de descarga de paquetes de
+# la primera compilación: cualquier otro aviso o error detiene la compilación.
+experimental=(
+  "warning: html export is under active development and incomplete"
+  " = hint: its behaviour may change at any time"
+  " = hint: do not rely on this feature for production use cases"
+  " = hint: see https://github.com/typst/typst/issues/5512 for more information"
+)
+
+compilar() {
+  local registro
+  registro="$(mktemp)"
+  if ! typst compile --root . "$@" 2>"$registro"; then
+    cat "$registro" >&2
+    rm -f "$registro"
+    return 1
+  fi
+  local resto
+  resto="$(grep -vxF -f <(printf '%s\n' "${experimental[@]}") "$registro" \
+    | grep -vE '^(downloading @|[[:space:]]*[0-9.]+ [KMG]?i?B /|$)' || true)"
+  rm -f "$registro"
+  if [ -n "$resto" ]; then
+    printf '%s\n' "$resto" >&2
+    return 1
+  fi
+}
+
+rm -rf public
+mkdir public
+
+cursos=()
+for dir in courses/*/; do
+  slug="$(basename "$dir")"
+  cursos+=("$slug")
+  mkdir -p "public/$slug"
+  echo "→ $slug"
+  compilar "courses/$slug/main.typ" "public/$slug/$slug.pdf"
+  TYPST_FEATURES=html compilar --format html --input "curso=$slug" \
+    "courses/$slug/main.typ" "public/$slug/index.html"
+  if [ -d "courses/$slug/figures" ]; then
+    cp -r "courses/$slug/figures" "public/$slug/figures"
+  fi
+done
+
+echo "→ portada"
+TYPST_FEATURES=html compilar --format html \
+  --input "cursos=$(IFS=,; echo "${cursos[*]}")" site/index.typ public/index.html
+cp site/estilo.css public/
+cp -r site/fuentes public/fuentes
+
+echo "→ búsqueda"
+pagefind
