@@ -1,0 +1,199 @@
+:root {
+  --azul: #1f36c8;
+  --texto: #1c1c1c;
+  --fondo: #fff;
+  --borde: #d9dce6;
+  --ancho: 46rem;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --azul: #8da2ff;
+    --texto: #e6e6e6;
+    --fondo: #14161c;
+    --borde: #353a4a;
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  max-width: var(--ancho);
+  margin: 0 auto;
+  padding: 1.5rem 1rem 4rem;
+  color: var(--texto);
+  background: var(--fondo);
+  font:
+    1.1rem/1.65 "New Computer Modern",
+    "Latin Modern Roman",
+    "STIX Two Text",
+    Georgia,
+    serif;
+  hyphens: auto;
+}
+
+a {
+  color: var(--azul);
+}
+
+h1,
+h2,
+h3,
+h4 {
+  line-height: 1.25;
+}
+
+h2 {
+  margin-top: 3rem;
+  padding-top: 1rem;
+  border-top: 2px solid var(--azul);
+  font-size: 1.7rem;
+}
+
+h3 {
+  margin-top: 2rem;
+  font-size: 1.3rem;
+}
+
+/* Chrome y Firefox necesitan una fuente con tabla MATH; no todos los sistemas la
+   traen, así que el sitio incluye STIX Two Math. */
+@font-face {
+  font-family: "STIX Two Math";
+  src: url("fuentes/StixTwoMath-Regular.woff2") format("woff2");
+}
+
+math {
+  font-family: "STIX Two Math", math;
+}
+
+.ecuacion {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 1rem 0;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+.ecuacion > math {
+  margin: 0 auto;
+}
+
+.ecuacion > .numero {
+  position: sticky;
+  right: 0;
+  padding-left: 1rem;
+  background: var(--fondo);
+  font-size: 0.95rem;
+}
+
+.cabecera-curso .creditos,
+.subtitulo {
+  color: color-mix(in srgb, var(--texto) 70%, transparent);
+  font-style: italic;
+}
+
+.cabecera-curso h1 {
+  margin-bottom: 0.2rem;
+  font-size: 2.2rem;
+}
+
+.pdf a {
+  display: inline-block;
+  padding: 0.35rem 0.9rem;
+  border: 1px solid var(--azul);
+  border-radius: 0.3rem;
+  text-decoration: none;
+}
+
+nav[role="doc-toc"] ol {
+  padding-left: 1.2rem;
+}
+
+nav[role="doc-toc"] .prefix {
+  margin-right: 0.4em;
+  font-variant-numeric: tabular-nums;
+}
+
+.caja {
+  --color: #444;
+  margin: 1.2rem 0;
+  padding: 0.2rem 1rem;
+  border-left: 4px solid var(--color);
+  background: color-mix(in srgb, var(--color) 8%, transparent);
+}
+
+.caja .cabecera {
+  margin: 0.6rem 0 0.2rem;
+}
+
+.caja.definicion {
+  --color: #1b6fa8;
+}
+
+.caja.teorema {
+  --color: #c98a00;
+}
+
+.caja.proposicion,
+.caja.lema,
+.caja.nota {
+  --color: #b3261e;
+}
+
+.caja.problema {
+  --color: #2e7d32;
+}
+
+.caja.demostracion {
+  --color: var(--azul);
+}
+
+img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  margin: 1rem auto;
+}
+
+figure {
+  margin: 1.5rem 0;
+  text-align: center;
+}
+
+figcaption {
+  font-size: 0.95rem;
+}
+
+table {
+  margin: 1.2rem auto;
+  border-collapse: collapse;
+}
+
+td,
+th {
+  padding: 0.35rem 0.7rem;
+  border: 1px solid var(--borde);
+}
+
+.cursos {
+  list-style: none;
+  padding: 0;
+}
+
+.cursos li {
+  margin: 0.4rem 0;
+}
+
+.cursos small {
+  display: block;
+  color: color-mix(in srgb, var(--texto) 70%, transparent);
+}
+
+#buscar {
+  display: block;
+  margin: 1.5rem 0;
+}
