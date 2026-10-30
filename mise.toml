@@ -1,8 +1,8 @@
 [tools]
 typst = "0.15.1"
 "github:Pagefind/pagefind" = "1.5.2"
-node = "24.22.0"
-oxfmt = "0.74.0"
+node = "26.13.0"
+oxfmt = "0.75.0"
 
 [tasks.lint]
 description = "Comprueba el formato de los documentos sin cambiarlos"
